@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { InputBase } from '@mui/material';
 
-export const Container = styled.div`
+export const Container = styled.div<SearchBoxWrapperProps>`
   display: flex;
   flex-direction: row;
   position: relative;
@@ -12,11 +12,8 @@ export const Container = styled.div`
   padding: 0 15px;
   border-radius: 50px;
   background-color: #ffffff;
-  border: 2px solid #ffffff;
-  &:focus-within {
-    border: 2px solid #017be9;
-    box-sizing: border-box;
-  }
+  border: ${({ isFocused }) => (isFocused ? '2px solid #017be9' : '2px solid #ffffff')};
+  ${({ isFocused }) => isFocused && 'box-sizing: border-box;'}
   gap: 10px;
 `;
 
@@ -49,3 +46,7 @@ export const ClearIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+interface SearchBoxWrapperProps {
+  isFocused: boolean;
+}
