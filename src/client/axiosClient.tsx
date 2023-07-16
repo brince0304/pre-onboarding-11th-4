@@ -6,8 +6,8 @@ const axiosClient = (baseURL: string, options?: any) => {
     headers: {
       'Content-Type': 'application/json',
       ...options?.headers,
-    }
+    },
   });
-}
+};
 
 export default axiosClient;

@@ -1,5 +1,5 @@
-const getSickURL = (query:string) => {
+const getSickURL = (query: string) => {
   return '/sick?q=' + query;
-}
+};
 
-export { getSickURL }
+export { getSickURL };
