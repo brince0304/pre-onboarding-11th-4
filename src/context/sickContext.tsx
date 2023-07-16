@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { SickServiceInterface } from '../service/sickService';
 
-const sickServiceContext = createContext<SickServiceInterface | null>(null);
+const sickServiceContext = createContext<SickServiceInterface>({} as SickServiceInterface);
 export const useSickService = () => useContext(sickServiceContext);
 
 export const SickServiceProvider = ({
