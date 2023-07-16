@@ -3,6 +3,6 @@ const getSickURL = (query: string) => {
 };
 const getDefaultExpireTime = () => {
   return Date.now() + 1000 * 60 * 5;
-}
+};
 
 export { getSickURL, getDefaultExpireTime };

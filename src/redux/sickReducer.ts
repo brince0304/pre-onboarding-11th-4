@@ -18,8 +18,8 @@ interface ISickReducer {
 const initialState: ISickReducer = {
   sickCache: [],
   loading: 'idle',
-  error: null
-}
+  error: null,
+};
 
 const sickSlice = createSlice({
   name: 'sick',
@@ -27,7 +27,7 @@ const sickSlice = createSlice({
   reducers: {
     setCachedSickList: (state, action) => {
       state.sickCache.push(action.payload);
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getSickListByQueryThunk.pending, (state, action) => {
@@ -42,9 +42,9 @@ const sickSlice = createSlice({
       const sickCache = {
         query: action.meta.arg.query,
         sickList: action.payload,
-        expireTime
+        expireTime,
       } as ISickCache;
-      if(state.sickCache.findIndex((sickCache) => sickCache.query === action.meta.arg.query) > -1) {
+      if (state.sickCache.findIndex((sickCache) => sickCache.query === action.meta.arg.query) > -1) {
         state.sickCache.push(sickCache);
       }
     });
@@ -52,7 +52,7 @@ const sickSlice = createSlice({
       state.loading = 'failed';
       state.error = action.error.message || null;
     });
-  }
+  },
 });
 
 export default sickSlice.reducer;
