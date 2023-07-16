@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { SickServiceProvider } from './context/sickContext';
 import { SickService } from './service/sickService';
 import axiosClient from './client/axiosClient';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 
 const baseURL = 'http://localhost:4000/';
 const sickService = new SickService(axiosClient(baseURL));
@@ -13,7 +15,9 @@ const sickService = new SickService(axiosClient(baseURL));
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <SickServiceProvider sickService={sickService}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </SickServiceProvider>,
 );
 

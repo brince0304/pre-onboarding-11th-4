@@ -28,15 +28,15 @@ const sickSlice = createSlice({
     setCachedSickList: (state, action) => {
       state.sickCache.push(action.payload);
     },
-    setError : (state, action) => {
+    setError: (state, action) => {
       state.error = action.payload;
     },
-    setLoading : (state, action) => {
-      if(state.loading==='pending'){
+    setLoading: (state, action) => {
+      if (state.loading === 'pending') {
         return;
       }
       state.loading = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getSickListByQueryThunk.pending, (state, action) => {
@@ -52,7 +52,7 @@ const sickSlice = createSlice({
       if (state.sickCache.findIndex((sickCache) => sickCache.query === action.meta.arg.query) === -1) {
         const sickCache = {
           query: action.meta.arg.query,
-          sickList: action.payload ? action.payload.splice(0,7) : [],
+          sickList: action.payload ? action.payload.splice(0, 7) : [],
           expireTime,
         } as ISickCache;
         state.sickCache.push(sickCache);
@@ -66,4 +66,4 @@ const sickSlice = createSlice({
 });
 
 export default sickSlice.reducer;
-export const { setCachedSickList, setError,setLoading } = sickSlice.actions;
+export const { setCachedSickList, setError, setLoading } = sickSlice.actions;
