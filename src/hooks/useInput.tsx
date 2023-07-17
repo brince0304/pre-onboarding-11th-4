@@ -5,11 +5,15 @@ const useInput = (initialValue: string) => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
+  const handleClear = () => {
+    setValue('');
+  };
 
   return {
     value,
     onChange,
     setValue,
+    handleClear,
   };
 };
 
