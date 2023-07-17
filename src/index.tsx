@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { SickServiceProvider } from './context/sickContext';
 import { SickService } from './service/sickService';
@@ -11,6 +10,7 @@ import { Provider } from 'react-redux';
 import { LocalRecentQueryRepository } from './repository/localStorageRepository';
 import { localStorageQueryListName } from './utils/sickUtility';
 import RecentQueryProvider from './context/recentQueryContext';
+import CustomRouterProvider from './router/router';
 
 const baseURL = 'http://localhost:4000/';
 const sickService = new SickService(axiosClient(baseURL));
@@ -21,7 +21,7 @@ root.render(
   <SickServiceProvider sickService={sickService}>
     <RecentQueryProvider localStorageRepository={recentQueryRepository}>
       <Provider store={store}>
-        <App />
+        <CustomRouterProvider/>
       </Provider>
     </RecentQueryProvider>
   </SickServiceProvider>,
