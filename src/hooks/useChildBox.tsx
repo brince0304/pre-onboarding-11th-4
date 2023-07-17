@@ -12,6 +12,7 @@ const useChildBox = (ref: RefObject<any>) => {
   };
   const handleBlur = () => {
     setIsFocus(false);
+    ref.current?.blur();
   };
 
   useEffect(() => {
