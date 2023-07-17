@@ -11,12 +11,7 @@ import useSelectKeydown from '../../hooks/useSelectKeydown';
 import { useRecentQuery } from '../../context/recentQueryContext';
 
 const SearchBox = () => {
-  const {
-    value: searchInput,
-    setValue: setSearchInput,
-    onChange: inputOnchange,
-    handleClear: handleClearInput,
-  } = useInput('');
+  const { value: searchInput, onChange: inputOnchange, handleClear: handleClearInput } = useInput('');
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const { isFocus, handleFocus, handleBlur } = useChildBox(formRef);
@@ -25,8 +20,10 @@ const SearchBox = () => {
 
   const submitCallback = (value: string) => {
     setRecentQuery(value);
-    setSearchInput(value);
+    alert(`검색어 : ${value}`);
     handleBlur();
+    inputRef.current?.blur();
+    handleClearInput();
   };
   const { selectedIndex, handleKeydown } = useSelectKeydown({
     listLength: sickList ? sickList.length : 0,
@@ -63,11 +60,11 @@ const SearchBox = () => {
   return (
     <S.Form ref={formRef} isFocused={isFocus} onSubmit={handleSubmitForm} onKeyDown={handleKeyDownEnter}>
       <S.Input
+        onFocus={handleFocus}
         onChange={inputOnchange}
         value={searchInput}
         placeholder="질환명을 입력해주세요."
-        ref={inputRef}
-        onFocus={handleFocus}
+        inputRef={inputRef}
         onKeyDown={handleKeydown}
       />
       {isFocus && <ClearButton onClick={handleClearInput} />}
