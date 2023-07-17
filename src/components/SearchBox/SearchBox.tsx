@@ -1,23 +1,25 @@
 import * as S from './SearchBox.style';
-import SearchButton from './SearchButton';
 import ClearButton from './ClearButton';
-import { useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import useChildBox from '../../hooks/useChildBox';
 import RecommendBox from '../RecommendBox/RecommendBox';
 import useSickList from '../../hooks/useSickList';
 import useInput from '../../hooks/useInput';
 import useDebounce from '../../hooks/useDebounce';
+import { useSickService } from '../../context/sickContext';
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBox = () => {
   const { value: input, setValue: setInput, onChange: inputOnchange } = useInput('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const handleClear = () => {
     setInput('');
     handleClearList();
   };
-  const { isFocus, handleFocus } = useChildBox(containerRef);
+  const { isFocus, handleFocus } = useChildBox(formRef);
   const { handleGetSickList, sickList, handleClearList } = useSickList();
+  const { setRecentQuery } = useSickService();
   const getSickListCallback = async () => {
     if (input.length > 0) {
       await handleGetSickList(input);
@@ -26,8 +28,22 @@ const SearchBox = () => {
     }
   };
   useDebounce(getSickListCallback, 300, [input]);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (input !== '') {
+      setRecentQuery(input);
+    }
+  };
+  useEffect(() => {
+    if (input.length === 0) {
+      handleClear();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input]);
+
   return (
-    <S.Container ref={containerRef} isFocused={isFocus}>
+    <S.Form ref={formRef} isFocused={isFocus} onSubmit={onSubmit}>
       <S.Input
         onChange={inputOnchange}
         value={input}
@@ -36,9 +52,13 @@ const SearchBox = () => {
         onFocus={handleFocus}
       />
       {isFocus && <ClearButton onClick={handleClear} />}
-      <SearchButton />
-      {isFocus && <RecommendBox sickList={sickList} />}
-    </S.Container>
+      <S.Button type={'submit'}>
+        <SearchIcon sx={{ color: '#fff' }} />
+      </S.Button>
+      {isFocus && (
+        <RecommendBox setInput={setInput} input={input} sickList={sickList} showRecentQueries={input.length === 0} />
+      )}
+    </S.Form>
   );
 };
 
