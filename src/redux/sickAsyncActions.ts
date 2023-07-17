@@ -15,7 +15,8 @@ export const getRecommendQueryAction = () => {
     const state = getState() as RootState;
     const sickCache = state.sickReducer.sickCache;
     const sickList = sickCache.filter(
-      (sick) => sick.query.length >= 2 && sick.sickList.length < 3 && sick.sickList.length > 0,
+      (sick) =>
+        sick.query.length <= 4 && sick.query.length >= 2 && sick.sickList.length < 3 && sick.sickList.length > 0,
     );
     const recommendQuery = sickList.map((sick) => sick.query);
     return recommendQuery.splice(0, 5) as string[];
