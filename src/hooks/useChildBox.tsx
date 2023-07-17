@@ -10,6 +10,9 @@ const useChildBox = (ref: RefObject<any>) => {
       setIsFocus(false);
     }
   };
+  const handleBlur = () => {
+    setIsFocus(false);
+  };
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -19,7 +22,7 @@ const useChildBox = (ref: RefObject<any>) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { isFocus, handleFocus };
+  return { isFocus, handleFocus, handleBlur };
 };
 
 export default useChildBox;
