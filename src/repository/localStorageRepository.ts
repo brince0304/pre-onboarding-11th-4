@@ -1,6 +1,6 @@
 export interface ILocalRecentQueryRepository {
-    save(value: string): void;
-    get(): string | null;
+  save(value: string): void;
+  get(): string | null;
 }
 
 export class LocalRecentQueryRepository implements ILocalRecentQueryRepository {
@@ -9,11 +9,11 @@ export class LocalRecentQueryRepository implements ILocalRecentQueryRepository {
   constructor(keyName: string) {
     this.#keyName = keyName;
   }
-    save(value: string): void {
-        localStorage.setItem(this.#keyName,value);
-    }
+  save(value: string): void {
+    localStorage.setItem(this.#keyName, value);
+  }
 
-    get(): string | null {
-        return localStorage.getItem(this.#keyName);
-    }
+  get(): string | null {
+    return localStorage.getItem(this.#keyName);
+  }
 }

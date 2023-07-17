@@ -8,18 +8,18 @@ import useSickList from '../../hooks/useSickList';
 import Loading from '../ResultList/Loading';
 import NoResult from '../ResultList/NoResult';
 
-const RecommendBox = ({ input, setInput, sickList, showRecentQueries }: IRecommendBoxProps) => {
-  const showInputKeyword = input.length > 0;
-  const showResultList = sickList && sickList.length > 0;
+const RecommendBox = ({ input, setInput, sickList, showRecentQueries, selectedIndex }: IRecommendBoxProps) => {
   const { loading } = useSickList();
   const isLoading = loading === 'pending';
+  const showInputKeyword = !isLoading && input.length > 0;
+  const showResultList = sickList && sickList.length > 0 && input.length > 0 && !isLoading;
   const showNoResult = !isLoading && !showResultList && showInputKeyword && input !== '';
   return (
     <S.Container>
       {isLoading && <Loading />}
-      {!isLoading && showInputKeyword && <ResultItem sick={{ sickCd: '', sickNm: input }} />}
+      {showInputKeyword && <ResultItem sick={{ sickCd: '', sickNm: input }} />}
       {showRecentQueries && <RecentQueries setInput={setInput} />}
-      {!isLoading && showResultList && <ResultList sickList={sickList} />}
+      {showResultList && <ResultList sickList={sickList} selectedIndex={selectedIndex} />}
       {showNoResult && <NoResult />}
       {showRecentQueries && <RecommendQueryButtons setInput={setInput} />}
     </S.Container>
@@ -31,6 +31,7 @@ interface IRecommendBoxProps {
   setInput: (input: string) => void;
   sickList?: ISickList;
   showRecentQueries: boolean;
+  selectedIndex: number;
 }
 
 export default RecommendBox;

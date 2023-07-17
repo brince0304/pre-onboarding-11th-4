@@ -5,7 +5,13 @@ import { localStorageQueryListName } from '../utils/sickUtility';
 const recentQueryContext = createContext<IRecentQueryContext>({} as IRecentQueryContext);
 export const useRecentQuery = () => useContext(recentQueryContext);
 
-const RecentQueryProvider = ({ children, localStorageRepository }: { children: ReactNode; localStorageRepository: ILocalRecentQueryRepository }) => {
+const RecentQueryProvider = ({
+  children,
+  localStorageRepository,
+}: {
+  children: ReactNode;
+  localStorageRepository: ILocalRecentQueryRepository;
+}) => {
   const get = localStorageRepository.get.bind(localStorageRepository);
   const save = localStorageRepository.save.bind(localStorageRepository);
   const [recentQueryFromStorage, setRecentQueryFromStorage] = useState<string[]>([]); // [1
@@ -33,13 +39,12 @@ const RecentQueryProvider = ({ children, localStorageRepository }: { children: R
     <recentQueryContext.Provider value={{ recentQuery: recentQueryFromStorage, setRecentQuery }}>
       {children}
     </recentQueryContext.Provider>
-  )
-
-}
+  );
+};
 
 interface IRecentQueryContext {
   recentQuery: string[];
-  setRecentQuery: (value:string) => void;
+  setRecentQuery: (value: string) => void;
 }
 
 export default RecentQueryProvider;

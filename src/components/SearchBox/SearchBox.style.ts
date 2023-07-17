@@ -13,7 +13,6 @@ export const Form = styled.form<SearchBoxWrapperProps>`
   border-radius: 50px;
   background-color: #ffffff;
   border: ${({ isFocused }) => (isFocused ? '2px solid #017be9' : '2px solid #ffffff')};
-  ${({ isFocused }) => isFocused && 'box-sizing: border-box;'}
   gap: 10px;
 `;
 

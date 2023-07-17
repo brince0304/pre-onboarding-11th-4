@@ -17,4 +17,6 @@ export const ResultItemButton = styled(ListItemButton)`
   height: 100%;
   gap: 10px;
   display: flex;
+  border: ${(props: { isSelected?: boolean }) => (props.isSelected ? '2px solid #017be9' : '2px solid transparent')};
+  border-radius: 5px;
 `;

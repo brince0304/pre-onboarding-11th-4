@@ -41,7 +41,7 @@ const sickSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getSickListByQueryThunk.pending, (state, action) => {
       state.loading = 'pending';
-      console.info("calling api")
+      console.info('calling api');
       state.error = null;
       state.sickCache = state.sickCache.filter((sickCache) => sickCache.expireTime > Date.now());
     });

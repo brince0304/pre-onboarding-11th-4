@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext,} from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import { SickServiceInterface } from '../service/sickService';
 import { ISickList } from '../interfaces/iSickList';
 
@@ -13,12 +13,7 @@ export const SickServiceProvider = ({
   sickService: SickServiceInterface;
 }) => {
   const getSickListByQuery = sickService.getSickListByQuery.bind(sickService);
-  return (
-    <sickServiceContext.Provider
-      value={{ getSickListByQuery }}>
-      {children}
-    </sickServiceContext.Provider>
-  );
+  return <sickServiceContext.Provider value={{ getSickListByQuery }}>{children}</sickServiceContext.Provider>;
 };
 
 interface ISickContext {
