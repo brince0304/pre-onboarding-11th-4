@@ -15,3 +15,19 @@ export const SearchBoxWrapper = styled.div`
   display: flex;
   margin-top: 50px;
 `;
+
+export const TitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 10px;
+`;
+
+export const Title = styled.span`
+  font-size: 30px;
+  font-weight: bold;
+  color: #121212;
+`;
