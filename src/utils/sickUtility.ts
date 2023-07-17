@@ -7,4 +7,4 @@ const getDefaultExpireTime = () => {
 
 const sessionStorageQueryListName = 'recentSickList';
 
-export { getSickURL, getDefaultExpireTime , sessionStorageQueryListName};
+export { getSickURL, getDefaultExpireTime, sessionStorageQueryListName };
