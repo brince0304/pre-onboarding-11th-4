@@ -1,9 +1,8 @@
-import { useSickService } from '../../../context/sickContext';
 import ResultItem from '../../ResultList/ResultItem';
 import * as S from '../../ResultList/ResultList.style';
+import { useRecentQuery } from '../../../context/recentQueryContext';
 const RecentQueries = ({ setInput }: IRecentQueriesProps) => {
-  const { recentQuery } = useSickService();
-
+  const { recentQuery } = useRecentQuery();
   return (
     <S.ResultQueryList>
       <S.RecentTitle>최근 검색어</S.RecentTitle>

@@ -5,6 +5,6 @@ const getDefaultExpireTime = () => {
   return Date.now() + 1000 * 60 * 5;
 };
 
-const sessionStorageQueryListName = 'recentSickList';
+const localStorageQueryListName = 'recentSickList';
 
-export { getSickURL, getDefaultExpireTime, sessionStorageQueryListName };
+export { getSickURL, getDefaultExpireTime, localStorageQueryListName };
