@@ -6,7 +6,7 @@ export const ListBox = styled(List)`
   height: 100%;
 `;
 
-export const ResultQueryList = styled(List)`
+export const RecentQueryList = styled(List)`
   width: 100%;
   height: 100%;
   border-bottom: 1px solid #f1f1f1;

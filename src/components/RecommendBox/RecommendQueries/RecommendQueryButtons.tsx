@@ -3,7 +3,7 @@ import RecommendButton from './RecommendButton';
 import useSickList from '../../../hooks/useSickList';
 import { useEffect, useState } from 'react';
 
-const RecommendQueryButtons = ({ setInput }: IRecommendButtonProps) => {
+const RecommendQueryButtons = ({ onClickHandler }: IRecommendButtonProps) => {
   const { handleGetRecommendQueries, sickList } = useSickList();
   const [queries, setQueries] = useState<string[]>([]);
   const getRecommentQueries = async () => {
@@ -20,7 +20,7 @@ const RecommendQueryButtons = ({ setInput }: IRecommendButtonProps) => {
       <S.RecommendTitle>추천 검색어로 검색해보세요</S.RecommendTitle>
       <S.ButtonBox>
         {queries.map((query, index) => {
-          return <RecommendButton handleChangeInput={setInput} key={index} label={query} />;
+          return <RecommendButton onClickHandler={onClickHandler} key={index} label={query} />;
         })}
       </S.ButtonBox>
     </S.Container>
@@ -28,7 +28,7 @@ const RecommendQueryButtons = ({ setInput }: IRecommendButtonProps) => {
 };
 
 interface IRecommendButtonProps {
-  setInput: (input: string) => void;
+  onClickHandler: (...args: any[]) => void;
 }
 
 export default RecommendQueryButtons;

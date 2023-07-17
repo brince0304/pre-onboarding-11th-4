@@ -1,22 +1,23 @@
-import ResultItem from '../../ResultList/ResultItem';
 import * as S from '../../ResultList/ResultList.style';
 import { useRecentQuery } from '../../../context/recentQueryContext';
-const RecentQueries = ({ setInput }: IRecentQueriesProps) => {
+import RecentQueryItem from './RecentQueryItem';
+import { HTMLProps } from 'react';
+const RecentQueries = ({ onClickHandler }: IRecentQueriesProps) => {
   const { recentQuery } = useRecentQuery();
   return (
-    <S.ResultQueryList>
+    <S.RecentQueryList>
       <S.RecentTitle>최근 검색어</S.RecentTitle>
       {recentQuery.length > 0 &&
         recentQuery.map((query, index) => {
-          return <ResultItem key={index} sick={{ sickCd: '', sickNm: query }} onClick={setInput} />;
+          return <RecentQueryItem key={index} query={query} onClickHandler={onClickHandler} />;
         })}
       {recentQuery.length === 0 && <S.Empty>최근 검색어가 없습니다.</S.Empty>}
-    </S.ResultQueryList>
+    </S.RecentQueryList>
   );
 };
 
-interface IRecentQueriesProps {
-  setInput: (input: string) => void;
+interface IRecentQueriesProps extends HTMLProps<HTMLButtonElement> {
+  onClickHandler: (...args: any[]) => void;
 }
 
 export default RecentQueries;

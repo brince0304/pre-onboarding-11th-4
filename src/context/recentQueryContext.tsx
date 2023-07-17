@@ -30,13 +30,23 @@ const RecentQueryProvider = ({
     }
   };
 
+  const deleteRecentQuery = (query: string) => {
+    const queryList = JSON.parse(get() || '[]');
+    const index = queryList.indexOf(query);
+    if (index !== -1) {
+      queryList.splice(index, 1);
+      save(JSON.stringify(queryList));
+      setRecentQueryFromStorage(queryList);
+    }
+  };
+
   useEffect(() => {
     setRecentQueryFromStorage(JSON.parse(get() || '[]'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <recentQueryContext.Provider value={{ recentQuery: recentQueryFromStorage, setRecentQuery }}>
+    <recentQueryContext.Provider value={{ recentQuery: recentQueryFromStorage, setRecentQuery, deleteRecentQuery }}>
       {children}
     </recentQueryContext.Provider>
   );
@@ -45,6 +55,7 @@ const RecentQueryProvider = ({
 interface IRecentQueryContext {
   recentQuery: string[];
   setRecentQuery: (value: string) => void;
+  deleteRecentQuery: (value: string) => void;
 }
 
 export default RecentQueryProvider;
