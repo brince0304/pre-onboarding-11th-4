@@ -1,10 +1,10 @@
-import { iSickChild } from '../../../interfaces/iSickList';
+import { iSickChild } from '../../interfaces/iSickList';
 import SearchIcon from '@mui/icons-material/Search';
 import * as S from './ResultItem.style';
-const ResultItem = ({ sick }: IResultItemProps) => {
+const ResultItem = ({ sick,onClick }: IResultItemProps) => {
   return (
     <S.ResultItemWrapper>
-      <S.ResultItemButton>
+      <S.ResultItemButton onClick={(e)=>(onClick ? onClick(sick.sickNm) : null)}>
         <SearchIcon sx={{ color: 'grey' }} />
         {sick.sickNm}
       </S.ResultItemButton>
@@ -14,7 +14,7 @@ const ResultItem = ({ sick }: IResultItemProps) => {
 
 interface IResultItemProps {
   sick: iSickChild;
-  onClick: () => void;
+  onClick?: (value:string) => void;
 }
 
 export default ResultItem;

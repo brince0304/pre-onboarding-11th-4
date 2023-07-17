@@ -14,6 +14,7 @@ const SearchBox = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const handleClear = () => {
+    if(input.length === 0) return;
     setInput('');
     handleClearList();
   };
@@ -27,7 +28,7 @@ const SearchBox = () => {
       handleClearList();
     }
   };
-  useDebounce(getSickListCallback, 300, [input]);
+  useDebounce(getSickListCallback, 200, [input]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
