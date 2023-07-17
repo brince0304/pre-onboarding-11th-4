@@ -2,12 +2,14 @@ import styled from '@emotion/styled';
 
 export const Button = styled.button`
   display: flex;
-  background-color: #017be9;
-  width: 55px;
-  height: 48px;
-  border-radius: 50%;
+  background-color: #eef8ff;
+  height: 100%;
+  padding: 10px;
+  border-radius: 50px;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   border: none;
+  font-size: 15px;
+  color: #017be9;
 `;
