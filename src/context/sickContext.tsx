@@ -15,15 +15,18 @@ export const SickServiceProvider = ({
 }) => {
   const [recentQueryFromStorage, setRecentQueryFromStorage] = useState<string[]>([]); // [1
   const getSickListByQuery = sickService.getSickListByQuery.bind(sickService);
+
   useEffect(() => {
     setRecentQueryFromStorage(JSON.parse(sessionStorage.getItem(sessionStorageQueryListName) || '[]'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionStorage.getItem(sessionStorageQueryListName)]);
+
   const setRecentQuery = (query: string) => {
     const queryList = JSON.parse(sessionStorage.getItem(sessionStorageQueryListName) || '[]');
     if (queryList.indexOf(query) === -1) {
-      queryList.push(query);
-      sessionStorage.setItem(sessionStorageQueryListName, JSON.stringify(queryList));
+      queryList.unshift(query);
+      const spliced = queryList.splice(0, 5);
+      sessionStorage.setItem(sessionStorageQueryListName, JSON.stringify(spliced));
       setRecentQueryFromStorage(queryList);
     }
   };
