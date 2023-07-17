@@ -3,9 +3,9 @@ import { RootState, useAppDispatch } from '../redux/store';
 import { useSickService } from '../context/sickContext';
 import { getSickListByQueryThunk } from '../redux/sickAsyncThunks';
 import { iSickChild } from '../interfaces/iSickList';
-import { setError } from '../redux/sickReducer';
+import { setError, setLoading } from '../redux/sickReducer';
 import { useState } from 'react';
-import { getSickListByQueryFromCachedList } from '../redux/sickAsyncActions';
+import { getRecommendQueryAction, getSickListByQueryFromCachedListAction } from '../redux/sickAsyncActions';
 
 const useSickList = (): ISickListReturn => {
   const { loading, error } = useSelector((state: RootState) => state.sickReducer);
@@ -15,7 +15,7 @@ const useSickList = (): ISickListReturn => {
 
   const handleGetSickList = async (query: string) => {
     try {
-      const list = await dispatch(getSickListByQueryFromCachedList(query));
+      const list = await dispatch(getSickListByQueryFromCachedListAction(query));
       if (list) {
         setSickList(list);
       } else {
@@ -25,7 +25,7 @@ const useSickList = (): ISickListReturn => {
             query,
           }),
         ).unwrap();
-        const list = await dispatch(getSickListByQueryFromCachedList(query));
+        const list = await dispatch(getSickListByQueryFromCachedListAction(query));
         setSickList(list);
       }
     } catch (e) {
@@ -36,8 +36,23 @@ const useSickList = (): ISickListReturn => {
   const handleClearList = () => {
     setSickList([]);
   };
+  const handleGetRecommendQueries = () => {
+    return dispatch(getRecommendQueryAction());
+  };
 
-  return { loading, error, handleGetSickList, sickList, handleClearList };
+  const handleSetLoading = (loading: string) => {
+    dispatch(setLoading(loading));
+  };
+
+  return {
+    loading,
+    error,
+    handleGetSickList,
+    sickList,
+    handleClearList,
+    handleGetRecommendQueries,
+    setLoading: handleSetLoading,
+  };
 };
 
 interface ISickListReturn {
@@ -46,6 +61,8 @@ interface ISickListReturn {
   handleGetSickList: (query: string) => Promise<void>;
   sickList: iSickChild[] | undefined;
   handleClearList: () => void;
+  handleGetRecommendQueries: () => Promise<string[]>;
+  setLoading: (loading: string) => void;
 }
 
 export default useSickList;
