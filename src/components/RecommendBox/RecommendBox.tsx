@@ -19,7 +19,7 @@ const RecommendBox = ({ input, submitHandler, sickList, showRecentQueries, selec
       {isLoading && <Loading />}
       {showInputKeyword && <ResultItem sick={{ sickCd: '', sickNm: input }} />}
       {showRecentQueries && <RecentQueries onClickHandler={submitHandler} />}
-      {showResultList && <ResultList sickList={sickList} selectedIndex={selectedIndex} />}
+      {showResultList && <ResultList submitHandler={submitHandler} sickList={sickList} selectedIndex={selectedIndex} />}
       {showNoResult && <NoResult />}
       {showRecentQueries && <RecommendQueryButtons onClickHandler={submitHandler} />}
     </S.Container>
