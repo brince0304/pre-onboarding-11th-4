@@ -21,7 +21,7 @@ root.render(
   <SickServiceProvider sickService={sickService}>
     <RecentQueryProvider localStorageRepository={recentQueryRepository}>
       <Provider store={store}>
-        <CustomRouterProvider/>
+        <CustomRouterProvider />
       </Provider>
     </RecentQueryProvider>
   </SickServiceProvider>,

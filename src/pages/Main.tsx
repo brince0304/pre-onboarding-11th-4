@@ -13,7 +13,7 @@ const Main = () => {
         <SearchBox />
       </S.SearchBoxWrapper>
     </S.Container>
-  )
-}
+  );
+};
 
 export default Main;
