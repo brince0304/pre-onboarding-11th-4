@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from 'react';
 
-const useInput = <T,>(initialValue: T) => {
+const useInput = (initialValue: string) => {
   const [value, setValue] = useState(initialValue);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value as unknown as T);
+    setValue(e.target.value);
   };
 
   return {
