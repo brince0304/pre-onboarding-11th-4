@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react';
 const RecommendQueryButtons = ({ onClickHandler }: IRecommendButtonProps) => {
   const { handleGetRecommendQueries, sickList } = useSickList();
   const [queries, setQueries] = useState<string[]>([]);
-  const getRecommentQueries = async () => {
+  const getRecommedQueries = async () => {
     const queries = await handleGetRecommendQueries();
     setQueries(queries);
   };
   useEffect(() => {
-    getRecommentQueries();
+    getRecommedQueries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sickList]);
 
