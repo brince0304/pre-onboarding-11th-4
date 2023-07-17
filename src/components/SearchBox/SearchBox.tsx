@@ -14,7 +14,7 @@ const SearchBox = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const handleClear = () => {
-    if(input.length === 0) return;
+    if (input.length === 0) return;
     setInput('');
     handleClearList();
   };

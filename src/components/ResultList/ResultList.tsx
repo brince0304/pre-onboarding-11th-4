@@ -4,10 +4,10 @@ import * as S from './ResultList.style';
 import { useSickService } from '../../context/sickContext';
 
 const ResultList = ({ sickList }: IResultListProps) => {
-  const {setRecentQuery} = useSickService();
-  const handleSaveRecentQuery = (value:string) => {
+  const { setRecentQuery } = useSickService();
+  const handleSaveRecentQuery = (value: string) => {
     setRecentQuery(value);
-  }
+  };
   return (
     <S.ListBox>
       <S.ResultTitle>추천 검색어</S.ResultTitle>
