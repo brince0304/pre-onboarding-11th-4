@@ -12,7 +12,7 @@ const useSelectKeydown = ({ listLength, callback }: IUseSelect) => {
     }
   };
   const handleKeydown = (e: KeyboardEvent<HTMLElement>) => {
-    if(e.nativeEvent.isComposing) return;
+    if (e.nativeEvent.isComposing) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setSelectedIndex((prev) => (prev + 1) % listLength);

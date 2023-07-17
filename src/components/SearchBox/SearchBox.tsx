@@ -7,62 +7,68 @@ import useSickList from '../../hooks/useSickList';
 import useInput from '../../hooks/useInput';
 import useDebounce from '../../hooks/useDebounce';
 import SearchIcon from '@mui/icons-material/Search';
-import useSelect from '../../hooks/useSelect';
+import useSelectKeydown from '../../hooks/useSelectKeydown';
 import { useRecentQuery } from '../../context/recentQueryContext';
 
 const SearchBox = () => {
-  const { value: input, setValue: setInput, onChange: inputOnchange } = useInput('');
+  const {
+    value: searchInput,
+    setValue: setSearchInput,
+    onChange: inputOnchange,
+    handleClear: handleClearInput,
+  } = useInput('');
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const { isFocus, handleFocus } = useChildBox(formRef);
+  const { isFocus, handleFocus, handleBlur } = useChildBox(formRef);
   const { handleGetSickList, sickList, handleClearList } = useSickList();
   const { setRecentQuery } = useRecentQuery();
 
   const submitCallback = (value: string) => {
     setRecentQuery(value);
-    handleClearInput();
+    setSearchInput(value);
+    handleBlur();
   };
-  const { selectedIndex, handleKeydown } = useSelect({
+  const { selectedIndex, handleKeydown } = useSelectKeydown({
     listLength: sickList ? sickList.length : 0,
     callback: submitCallback,
   });
   const getSickListCallback = async () => {
-    if (input.length > 0) {
-      await handleGetSickList(input);
-    } else if (input.length === 0) {
+    if (searchInput.length > 0) {
+      await handleGetSickList(searchInput);
+    } else if (searchInput.length === 0) {
       handleClearList();
     }
   };
-  useDebounce(getSickListCallback, 300, [input]);
+  useDebounce(getSickListCallback, 300, [searchInput]);
 
-  const handleClearInput = () => {
-    if (input.length === 0) return;
-    setInput('');
-    handleClearList();
-  };
-
-  const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (input !== '') {
-      submitCallback(input);
-    }
-  };
   useEffect(() => {
-    if (input.length === 0) {
-      handleClearInput();
+    if (searchInput.length === 0) {
+      handleClearList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [input]);
-
+  }, [searchInput]);
+  const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchInput.length === 0) return;
+    submitCallback(searchInput);
+  };
+  const handleKeyDownEnter = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (searchInput.length === 0) return;
+    if (e.nativeEvent.isComposing) return;
+    if (e.key === 'Enter' && selectedIndex === -1) {
+      e.preventDefault();
+      submitCallback(searchInput);
+    }
+  };
   return (
-    <S.Form ref={formRef} isFocused={isFocus} onSubmit={handleSubmitForm}>
+    <S.Form ref={formRef} isFocused={isFocus} onSubmit={handleSubmitForm} onKeyDown={handleKeyDownEnter}>
       <S.Input
-        onKeyDown={handleKeydown}
         onChange={inputOnchange}
-        value={input}
+        value={searchInput}
         placeholder="질환명을 입력해주세요."
         ref={inputRef}
         onFocus={handleFocus}
+        onKeyDown={handleKeydown}
       />
       {isFocus && <ClearButton onClick={handleClearInput} />}
       <S.Button type={'submit'}>
@@ -71,10 +77,10 @@ const SearchBox = () => {
       {isFocus && (
         <RecommendBox
           selectedIndex={selectedIndex}
-          setInput={setInput}
-          input={input}
+          submitHandler={submitCallback}
+          input={searchInput}
           sickList={sickList}
-          showRecentQueries={input.length === 0}
+          showRecentQueries={searchInput.length === 0}
         />
       )}
     </S.Form>
