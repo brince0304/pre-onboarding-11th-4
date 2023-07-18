@@ -26,6 +26,9 @@ const useSelectKeydown = ({ listLength, callback, ref }: IUseSelect) => {
     } else if (e.key === 'Enter' && selectedIndex >= 0) {
       e.preventDefault();
       handleSubmitSelected();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      setSelectedIndex(-1);
     }
   };
 
