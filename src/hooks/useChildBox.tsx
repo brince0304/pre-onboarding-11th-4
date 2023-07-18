@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useState } from 'react';
 
-const useChildBox = (ref: RefObject<any>) => {
+const useChildBox = (ref: RefObject<HTMLElement>) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const handleFocus = () => {
     setIsFocus(true);

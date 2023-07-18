@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-function useDebounce<T>(callback: (value: T) => void, delay: number, dependencies: any[]) {
-  const [debouncedCallback, setDebouncedCallback] = useState<(value: T) => void>(() => {});
+const useDebounce = <T,> (callback: (...args:T[]) => void, delay: number, dependencies: any[]) => {
+  const [debouncedCallback, setDebouncedCallback] = useState<(...args:T[]) => void>(() => {});
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedCallback((value: T) => {
-        callback(value);
+      setDebouncedCallback((...args:T[]) => {
+        callback(...args);
       });
     }, delay);
 
