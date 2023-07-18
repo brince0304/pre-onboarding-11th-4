@@ -7,7 +7,7 @@ const ResultList = ({ sickList, submitHandler, selectedIndex }: IResultListProps
     <S.ListBox>
       <S.ResultTitle>추천 검색어</S.ResultTitle>
       {sickList.map((sick, index) => (
-        <ResultItem key={index} sick={sick} onClickHandler={submitHandler} isSelected={selectedIndex === index} />
+        <ResultItem index={index} key={index} sick={sick} onClickHandler={submitHandler} isSelected={selectedIndex === index} />
       ))}
     </S.ListBox>
   );
