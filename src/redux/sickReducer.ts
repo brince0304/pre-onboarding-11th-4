@@ -1,22 +1,15 @@
-import { ISickList } from '../interfaces/iSickList';
+import { iSickChild } from '../interfaces/iSickList';
 import { createSlice } from '@reduxjs/toolkit';
 import { getSickListByQueryThunk } from './sickAsyncThunks';
-import { getDefaultExpireTime } from '../utils/sickUtility';
-
-interface ISickCache {
-  query: string;
-  sickList: ISickList;
-  expireTime: number;
-}
 
 interface ISickReducer {
-  sickCache: ISickCache[];
+  sickList: iSickChild[];
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error: string | null;
 }
 
 const initialState: ISickReducer = {
-  sickCache: [],
+  sickList: [],
   loading: 'idle',
   error: null,
 };
@@ -25,8 +18,8 @@ const sickSlice = createSlice({
   name: 'sick',
   initialState,
   reducers: {
-    setCachedSickList: (state, action) => {
-      state.sickCache.push(action.payload);
+    setSickList: (state, action) => {
+      state.sickList = action.payload;
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -41,22 +34,12 @@ const sickSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getSickListByQueryThunk.pending, (state, action) => {
       state.loading = 'pending';
-      console.info('calling api');
       state.error = null;
-      state.sickCache = state.sickCache.filter((sickCache) => sickCache.expireTime > Date.now());
     });
     builder.addCase(getSickListByQueryThunk.fulfilled, (state, action) => {
       state.loading = 'succeeded';
+      state.sickList = action.payload;
       state.error = null;
-      const expireTime = getDefaultExpireTime();
-      if (state.sickCache.findIndex((sickCache) => sickCache.query === action.meta.arg.query) === -1) {
-        const sickCache = {
-          query: action.meta.arg.query,
-          sickList: action.payload ? action.payload.splice(0, 7) : [],
-          expireTime,
-        } as ISickCache;
-        state.sickCache.push(sickCache);
-      }
     });
     builder.addCase(getSickListByQueryThunk.rejected, (state, action) => {
       state.loading = 'failed';
@@ -66,4 +49,4 @@ const sickSlice = createSlice({
 });
 
 export default sickSlice.reducer;
-export const { setCachedSickList, setError, setLoading } = sickSlice.actions;
+export const { setSickList, setError, setLoading } = sickSlice.actions;
