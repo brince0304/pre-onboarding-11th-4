@@ -11,8 +11,8 @@ import { IRecommendBoxProps, ISearchFormProps } from '../../interfaces/searchBox
 
 const SearchBox = () => {
   const searchBoxRef = useRef<HTMLDivElement>(null);
-  const { value, setValue} = useInput('');
-  const { isFocus:isInputFocus,setIsFocus } = useChildBox(searchBoxRef);
+  const { value, setValue } = useInput('');
+  const { isFocus: isInputFocus, setIsFocus } = useChildBox(searchBoxRef);
   const { sickList } = useSickList();
   const { addRecentQuery } = useRecentQuery();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,18 +40,14 @@ const SearchBox = () => {
     value,
     setValue,
     submitHandler,
-    refs:{inputRef,formRef}
+    refs: { inputRef, formRef },
   } as ISearchFormProps;
   const recommendBoxProps = { selectedListItemIndex, submitHandler, value } as IRecommendBoxProps;
 
   return (
     <S.SearchBoxWrapper ref={searchBoxRef}>
-      <SearchForm {...searchFormProps}
-      />
-      {isInputFocus && <RecommendBox
-        {...recommendBoxProps}
-        ref={boxRef}
-      />}
+      <SearchForm {...searchFormProps} />
+      {isInputFocus && <RecommendBox {...recommendBoxProps} ref={boxRef} />}
     </S.SearchBoxWrapper>
   );
 };

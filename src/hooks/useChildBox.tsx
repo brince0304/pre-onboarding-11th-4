@@ -8,7 +8,6 @@ const useChildBox = (ref: RefObject<HTMLElement>) => {
     }
   };
 
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {

@@ -5,7 +5,7 @@ export interface ISearchFormProps extends IRecommendBoxProps {
   setValue: (value: string) => void;
   handleKeydownSelect: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   setIsFocus: (isFocus: boolean) => void;
-  refs:{inputRef:ForwardedRef<HTMLInputElement>,formRef:ForwardedRef<HTMLFormElement>}
+  refs: { inputRef: ForwardedRef<HTMLInputElement>; formRef: ForwardedRef<HTMLFormElement> };
 }
 
 export interface IRecommendBoxProps {

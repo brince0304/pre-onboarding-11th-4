@@ -5,7 +5,16 @@ import * as S from './SearchBox.style';
 import ClearButton from './ClearButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { ISearchFormProps } from 'interfaces/searchBox';
-const SearchForm = ({value, setValue,setIsFocus, isInputFocus, submitHandler, selectedListItemIndex, handleKeydownSelect,refs}: ISearchFormProps) => {
+const SearchForm = ({
+  value,
+  setValue,
+  setIsFocus,
+  isInputFocus,
+  submitHandler,
+  selectedListItemIndex,
+  handleKeydownSelect,
+  refs,
+}: ISearchFormProps) => {
   const { handleFetchSickList, handleClearList } = useSickList();
   const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,16 +42,18 @@ const SearchForm = ({value, setValue,setIsFocus, isInputFocus, submitHandler, se
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-  }
+  };
 
   const handleClearValue = () => {
     setValue('');
-  }
+  };
 
   return (
     <S.Form ref={refs.formRef} isFocused={isInputFocus} onSubmit={handleSubmitForm} onKeyDown={handleKeyDownEnter}>
       <S.Input
-        onFocus={(e)=>{setIsFocus(true)}}
+        onFocus={(e) => {
+          setIsFocus(true);
+        }}
         onChange={onChangeValue}
         value={value}
         placeholder="질환명을 입력해주세요."
