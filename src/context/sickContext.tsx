@@ -17,5 +17,5 @@ export const SickServiceProvider = ({
 };
 
 interface ISickContext {
-  getSickListByQuery: (query: string) => Promise<ISickList>;
+  getSickListByQuery: (query: string) => () => Promise<ISickList>;
 }

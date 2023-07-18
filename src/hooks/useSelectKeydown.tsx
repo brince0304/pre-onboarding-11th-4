@@ -1,13 +1,11 @@
 import { KeyboardEvent, RefObject, useEffect, useState } from 'react';
 
-const useSelectKeydown = ({ listLength, callback ,ref}: IUseSelect) => {
+const useSelectKeydown = ({ listLength, callback, ref }: IUseSelect) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const handleSubmitSelected = () => {
     if (selectedIndex >= 0 && selectedIndex < listLength) {
-      const selectedElement = ref.current?.querySelector(
-        `[data-index="${selectedIndex}"]`,
-      );
+      const selectedElement = ref.current?.querySelector(`[data-index="${selectedIndex}"]`);
       if (selectedElement) {
         const value = selectedElement.getAttribute('data-value');
         if (value) {
