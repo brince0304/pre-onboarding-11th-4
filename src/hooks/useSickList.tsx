@@ -12,9 +12,6 @@ const useSickList = (): ISickListReturn => {
   const handleClearList = () => {
     dispatch(setSickList([]));
   };
-  const handleGetRecommendQueries = () => {
-    return ['비만', '우울증'];
-  };
   const handleSetLoading = (loading: string) => {
     dispatch(setLoading(loading));
   };
@@ -36,7 +33,6 @@ const useSickList = (): ISickListReturn => {
     handleFetchSickList,
     sickList,
     handleClearList,
-    handleGetRecommendQueries,
     setLoading: handleSetLoading,
   };
 };
@@ -47,7 +43,6 @@ interface ISickListReturn {
   handleFetchSickList: (query: string) => void;
   sickList: iSickChild[] | undefined;
   handleClearList: () => void;
-  handleGetRecommendQueries: () => string[];
   setLoading: (loading: string) => void;
 }
 export default useSickList;

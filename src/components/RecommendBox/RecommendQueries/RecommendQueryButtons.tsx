@@ -4,16 +4,7 @@ import useSickList from '../../../hooks/useSickList';
 import { useEffect, useState } from 'react';
 
 const RecommendQueryButtons = ({ onClickHandler }: IRecommendButtonProps) => {
-  const { handleGetRecommendQueries, sickList } = useSickList();
-  const [queries, setQueries] = useState<string[]>([]);
-  const getRecommedQueries = async () => {
-    const queries = await handleGetRecommendQueries();
-    setQueries(queries);
-  };
-  useEffect(() => {
-    getRecommedQueries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sickList]);
+  const queries = ['비만','우울증','B형 간염','담낭염']
 
   return (
     <S.Container>
