@@ -1,16 +1,20 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, RefObject, useEffect, useState } from 'react';
 
-const useSelectKeydown = ({ listLength, callback }: IUseSelect) => {
+const useSelectKeydown = ({ listLength, callback, ref }: IUseSelect) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
+
   const handleSubmitSelected = () => {
-    const selected = document.getElementsByClassName('selected');
-    if (selected.length > 0) {
-      const selectedValue = selected[0].textContent;
-      if (selectedValue) {
-        callback && callback(selectedValue);
+    if (selectedIndex >= 0 && selectedIndex < listLength) {
+      const selectedElement = ref.current?.querySelector(`[data-index="${selectedIndex}"]`);
+      if (selectedElement) {
+        const value = selectedElement.getAttribute('data-value');
+        if (value) {
+          callback(value);
+        }
       }
     }
   };
+
   const handleKeydown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.nativeEvent.isComposing) return;
     if (e.key === 'ArrowDown') {
@@ -19,20 +23,23 @@ const useSelectKeydown = ({ listLength, callback }: IUseSelect) => {
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedIndex((prev) => (prev - 1 + listLength) % listLength);
-    } else if (e.key === 'Enter' && listLength >= 1 && selectedIndex >= 0) {
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
       e.preventDefault();
       handleSubmitSelected();
     }
   };
+
   useEffect(() => {
     setSelectedIndex(-1);
   }, [listLength]);
-  return { selectedIndex, handleKeydown: handleKeydown };
+
+  return { selectedListItemIndex: selectedIndex, handleKeydownSelect: handleKeydown };
 };
 
 interface IUseSelect {
   listLength: number;
-  callback?: (value: string) => void;
+  callback: (...args: any[]) => void;
+  ref: RefObject<HTMLElement>;
 }
 
 export default useSelectKeydown;

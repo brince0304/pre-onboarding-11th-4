@@ -1,22 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 
-const useDebounce = <T,>(callback: (...args: T[]) => void, delay: number, dependencies: any[]) => {
-  const [debouncedCallback, setDebouncedCallback] = useState<(...args: T[]) => void>(() => {});
+function useDebounce<T extends any[]>(callback: (...params: T) => void, time: number) {
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  return (...params: T) => {
+    if (timer.current) clearTimeout(timer.current);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedCallback((...args: T[]) => {
-        callback(...args);
-      });
-    }, delay);
-
-    return () => {
-      clearTimeout(timer);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies);
-
-  return debouncedCallback;
-};
+    timer.current = setTimeout(() => {
+      callback(...params);
+      timer.current = null;
+    }, time);
+  };
+}
 
 export default useDebounce;

@@ -20,7 +20,7 @@ const RecentQueryProvider = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localStorage.getItem(localStorageQueryListName)]);
 
-  const setRecentQuery = (query: string) => {
+  const addRecentQuery = (query: string) => {
     const queryList = JSON.parse(get() || '[]');
     if (queryList.indexOf(query) === -1) {
       queryList.unshift(query);
@@ -46,7 +46,7 @@ const RecentQueryProvider = ({
   }, []);
 
   return (
-    <recentQueryContext.Provider value={{ recentQuery: recentQueryFromStorage, setRecentQuery, deleteRecentQuery }}>
+    <recentQueryContext.Provider value={{ recentQuery: recentQueryFromStorage, addRecentQuery, deleteRecentQuery }}>
       {children}
     </recentQueryContext.Provider>
   );
@@ -54,7 +54,7 @@ const RecentQueryProvider = ({
 
 interface IRecentQueryContext {
   recentQuery: string[];
-  setRecentQuery: (value: string) => void;
+  addRecentQuery: (value: string) => void;
   deleteRecentQuery: (value: string) => void;
 }
 

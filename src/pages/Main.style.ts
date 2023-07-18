@@ -9,13 +9,6 @@ export const Container = styled.main`
   min-height: 120vh;
 `;
 
-export const SearchBoxWrapper = styled.div`
-  width: 450px;
-  height: 100%;
-  display: flex;
-  margin-top: 50px;
-`;
-
 export const TitleContainer = styled.div`
   width: 100%;
   display: flex;

@@ -16,6 +16,14 @@ export const Form = styled.form<SearchBoxWrapperProps>`
   gap: 10px;
 `;
 
+export const SearchBoxWrapper = styled.div`
+  position: relative;
+  width: 450px;
+  height: 100%;
+  display: flex;
+  margin-top: 50px;
+`;
+
 export const Input = styled(InputBase)`
   width: 100%;
   margin-left: 20px;
