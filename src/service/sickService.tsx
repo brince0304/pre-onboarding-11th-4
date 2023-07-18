@@ -33,12 +33,12 @@ export class SickService implements SickServiceInterface {
 
     return async () => {
       clearCachedData();
-      const cachedData = getCachedData();
-      if (cachedData) {
-        return cachedData.sickList;
+      const data = getCachedData();
+      if (data) {
+        return data.sickList;
       }
+      console.info('calling api');
       try {
-        console.info('calling api');
         const { data } = await this.axiosClient.get(getSickURL(query));
         const spliced = data.splice(0, 7);
         addToCachedData(spliced);
