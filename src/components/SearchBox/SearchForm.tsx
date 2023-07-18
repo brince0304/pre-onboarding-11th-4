@@ -5,16 +5,19 @@ import * as S from './SearchBox.style';
 import ClearButton from './ClearButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { ISearchFormProps } from 'interfaces/searchBox';
-const SearchForm = ({
-  value,
-  setValue,
-  setIsFocus,
-  isInputFocus,
-  submitHandler,
-  selectedListItemIndex,
-  handleKeydownSelect,
-  refs,
-}: ISearchFormProps,ref:ForwardedRef<HTMLElement>) => {
+const SearchForm = (
+  {
+    value,
+    setValue,
+    setIsFocus,
+    isInputFocus,
+    submitHandler,
+    selectedListItemIndex,
+    handleKeydownSelect,
+    refs,
+  }: ISearchFormProps,
+  ref: ForwardedRef<HTMLElement>,
+) => {
   const { handleFetchSickList, handleClearList } = useSickList();
   const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
