@@ -1,4 +1,4 @@
-import React, { FormEvent, forwardRef, useEffect } from 'react';
+import React, { FormEvent, ForwardedRef, forwardRef, useEffect } from 'react';
 import useSickList from '../../hooks/useSickList';
 import useDebounce from '../../hooks/useDebounce';
 import * as S from './SearchBox.style';
@@ -14,7 +14,7 @@ const SearchForm = ({
   selectedListItemIndex,
   handleKeydownSelect,
   refs,
-}: ISearchFormProps) => {
+}: ISearchFormProps,ref:ForwardedRef<HTMLElement>) => {
   const { handleFetchSickList, handleClearList } = useSickList();
   const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
