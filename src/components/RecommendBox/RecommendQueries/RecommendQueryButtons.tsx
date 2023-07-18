@@ -1,7 +1,5 @@
 import * as S from './RecommendQueryButtons.style';
 import RecommendButton from './RecommendButton';
-import useSickList from '../../../hooks/useSickList';
-import { useEffect, useState } from 'react';
 
 const RecommendQueryButtons = ({ onClickHandler }: IRecommendButtonProps) => {
   const queries = ['비만', '우울증', 'B형 간염', '담낭염'];
