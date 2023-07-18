@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
-const useDebounce = <T,> (callback: (...args:T[]) => void, delay: number, dependencies: any[]) => {
-  const [debouncedCallback, setDebouncedCallback] = useState<(...args:T[]) => void>(() => {});
+const useDebounce = <T,>(callback: (...args: T[]) => void, delay: number, dependencies: any[]) => {
+  const [debouncedCallback, setDebouncedCallback] = useState<(...args: T[]) => void>(() => {});
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedCallback((...args:T[]) => {
+      setDebouncedCallback((...args: T[]) => {
         callback(...args);
       });
     }, delay);
@@ -17,6 +17,6 @@ const useDebounce = <T,> (callback: (...args:T[]) => void, delay: number, depend
   }, dependencies);
 
   return debouncedCallback;
-}
+};
 
 export default useDebounce;
