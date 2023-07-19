@@ -14,7 +14,7 @@ const RecommendBox = (
   { value, submitHandler, selectedListItemIndex }: IRecommendBoxProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) => {
-  const { error,loading, sickList } = useSickList();
+  const { error, loading, sickList } = useSickList();
   const isLoading = loading === 'pending';
   const showInputKeyword = !isLoading && value.length > 0;
   const showResultList = sickList && sickList.length > 0 && value.length > 0 && !isLoading;
@@ -32,7 +32,7 @@ const RecommendBox = (
       )}
       {showNoResult && <NoResult />}
       {showRecentQueries && <RecommendQueryButtons onClickHandler={submitHandler} />}
-        {showError && <Error/>}
+      {showError && <Error />}
     </S.Container>
   );
 };
