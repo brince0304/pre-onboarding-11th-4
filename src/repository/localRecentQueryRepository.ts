@@ -8,7 +8,7 @@ export interface ILocalStorageSickCacheRepository {
 }
 
 export class LocalStorageSickCacheRepository implements ILocalStorageSickCacheRepository {
-  private keyName = localStorageSickCacheName;
+  private readonly keyName = localStorageSickCacheName;
   private cachedData: ISickCache[];
 
   constructor() {
