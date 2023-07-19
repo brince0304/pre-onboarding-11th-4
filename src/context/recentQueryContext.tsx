@@ -12,28 +12,29 @@ const RecentQueryProvider = ({
   localStorageRepository: ILocalRecentQueryRepository;
 }) => {
   const getFromLocalStorage = localStorageRepository.getFromLocalStorage.bind(localStorageRepository);
-    const addRecentQuery = localStorageRepository.addRecentQuery.bind(localStorageRepository);
-    const deleteRecentQuery = localStorageRepository.deleteRecentQuery.bind(localStorageRepository);
-    const [list, setList] = useState<string[]>([]);
+  const addRecentQuery = localStorageRepository.addRecentQuery.bind(localStorageRepository);
+  const deleteRecentQuery = localStorageRepository.deleteRecentQuery.bind(localStorageRepository);
+  const [list, setList] = useState<string[]>([]);
 
-    const handleAddRecentQuery = (value: string) => {
-        addRecentQuery(value);
-        setList(getFromLocalStorage());
-    }
+  const handleAddRecentQuery = (value: string) => {
+    addRecentQuery(value);
+    setList(getFromLocalStorage());
+  };
 
-    const handleDeleteRecentQuery = (value: string) => {
-        deleteRecentQuery(value);
-        setList(getFromLocalStorage());
-    }
+  const handleDeleteRecentQuery = (value: string) => {
+    deleteRecentQuery(value);
+    setList(getFromLocalStorage());
+  };
 
-    useEffect(() => {
-        setList(getFromLocalStorage());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
+  useEffect(() => {
+    setList(getFromLocalStorage());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <recentQueryContext.Provider value={{ recentQuery: list, addRecentQuery: handleAddRecentQuery, deleteRecentQuery: handleDeleteRecentQuery }}>
+    <recentQueryContext.Provider
+      value={{ recentQuery: list, addRecentQuery: handleAddRecentQuery, deleteRecentQuery: handleDeleteRecentQuery }}
+    >
       {children}
     </recentQueryContext.Provider>
   );

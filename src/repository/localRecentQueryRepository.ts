@@ -1,9 +1,9 @@
 import { localStorageQueryListName } from '../utils/sickUtility';
 
 export interface ILocalRecentQueryRepository {
-    getFromLocalStorage(): string[];
-addRecentQuery(query: string): void;
-deleteRecentQuery(query: string): void;
+  getFromLocalStorage(): string[];
+  addRecentQuery(query: string): void;
+  deleteRecentQuery(query: string): void;
 }
 
 export class LocalRecentQueryRepository implements ILocalRecentQueryRepository {
@@ -19,7 +19,7 @@ export class LocalRecentQueryRepository implements ILocalRecentQueryRepository {
     if (queryList.indexOf(query) === -1) {
       queryList.unshift(query);
       const spliced = queryList.splice(0, 5);
-        this.saveList(spliced);
+      this.saveList(spliced);
     }
   };
 
@@ -32,9 +32,7 @@ export class LocalRecentQueryRepository implements ILocalRecentQueryRepository {
     const index = queryList.indexOf(query);
     if (index !== -1) {
       queryList.splice(index, 1);
-        this.saveList(queryList);
+      this.saveList(queryList);
     }
   };
-
-
 }
