@@ -5,16 +5,20 @@ import { iSickChild } from '../interfaces/iSickList';
 import { setError, setLoading, setSickList } from '../redux/sickReducer';
 import { getSickListByQueryThunk } from '../redux/sickAsyncThunks';
 
+
 const useSickList = (): ISickListReturn => {
   const { sickList, loading, error } = useSelector((state: RootState) => state.sickReducer);
   const { getSickListByQuery } = useSickService();
   const dispatch = useAppDispatch();
+
   const handleClearList = () => {
     dispatch(setSickList([]));
   };
+
   const handleSetLoading = (loading: string) => {
     dispatch(setLoading(loading));
-  };
+  }
+
   const handleFetchSickList = async (query: string) => {
     if (query === '') return;
     const callback = () => {
@@ -25,7 +29,7 @@ const useSickList = (): ISickListReturn => {
     } catch (e) {
       dispatch(setError(e));
     }
-  };
+  }
 
   return {
     loading,

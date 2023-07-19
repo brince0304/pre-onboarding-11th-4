@@ -7,7 +7,7 @@ import useSickList from '../../hooks/useSickList';
 import Loading from '../ResultList/Loading';
 import NoResult from '../ResultList/NoResult';
 import React, { ForwardedRef, forwardRef } from 'react';
-import { IRecommendBoxProps } from '../../interfaces/searchBox';
+import {IRecommendBoxProps} from "../../interfaces/searchBox";
 
 const RecommendBox = (
   { value, submitHandler, selectedListItemIndex }: IRecommendBoxProps,
