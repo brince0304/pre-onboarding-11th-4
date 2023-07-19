@@ -26,8 +26,8 @@ const SearchBox = () => {
     setValue('');
   };
   const listLength = sickList ? sickList.length : 0;
-  const handleSubmitSelected = (selectedIndex:number) => {
-    if(selectedIndex === -1) return;
+  const handleSubmitSelected = (selectedIndex: number) => {
+    if (selectedIndex === -1) return;
     const selectedElement = boxRef.current?.querySelector(`[data-index="${selectedIndex}"]`);
     const value = selectedElement?.getAttribute('data-value');
     if (value) {
@@ -37,7 +37,7 @@ const SearchBox = () => {
   const boxRef = useRef<HTMLDivElement>(null);
   const { selectedListItemIndex, handleKeydownSelect } = useSelectKeydown({
     listLength: listLength,
-    selectHandler:handleSubmitSelected
+    selectHandler: handleSubmitSelected,
   });
   const searchFormProps = {
     isInputFocus,

@@ -28,7 +28,7 @@ const useSelectKeydown = ({ listLength, selectHandler }: IUseSelect) => {
 
 interface IUseSelect {
   listLength: number;
-  selectHandler: (index:number) => void;
+  selectHandler: (index: number) => void;
 }
 
 export default useSelectKeydown;
