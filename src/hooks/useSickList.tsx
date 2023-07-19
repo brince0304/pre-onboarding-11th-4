@@ -18,7 +18,7 @@ const useSickList = (): ISickListReturn => {
   const handleFetchSickList = async (query: string) => {
     if (query === '') return;
     const callback = () => {
-      return getSickListByQuery(query)();
+      return getSickListByQuery(query);
     };
     try {
       await dispatch(getSickListByQueryThunk(callback)).unwrap();
