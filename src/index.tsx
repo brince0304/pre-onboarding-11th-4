@@ -12,7 +12,7 @@ import CustomRouterProvider from './router/router';
 import { LocalStorageSickCacheRepository } from './repository/localSickCachRepository';
 import { LocalRecentQueryRepository } from './repository/localRecentQueryRepository';
 
-const baseURL = 'http://localhost:4000/';
+const baseURL = process.env.REACT_APP_API_BASE_URL as string;
 const cacheRepository = new LocalStorageSickCacheRepository();
 const sickService = new SickService(axiosClient(baseURL), cacheRepository);
 const recentQueryRepository = new LocalRecentQueryRepository();
