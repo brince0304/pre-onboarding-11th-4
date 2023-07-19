@@ -7,12 +7,12 @@ import useSickList from '../../hooks/useSickList';
 import Loading from '../ResultList/Loading';
 import Error from '../ResultList/Error';
 import NoResult from '../ResultList/NoResult';
-import React, { ForwardedRef, forwardRef } from 'react';
+import React  from "react";
 import { IRecommendBoxProps } from '../../interfaces/searchBox';
 
 const RecommendBox = (
-  { value, submitHandler, selectedListItemIndex }: IRecommendBoxProps,
-  ref: ForwardedRef<HTMLDivElement>,
+  { value, submitHandler, selectedListItemIndex,selectedListRef }: IRecommendBoxProps,
+
 ) => {
   const { error, loading, sickList } = useSickList();
   const isLoading = loading === 'pending';
@@ -23,12 +23,12 @@ const RecommendBox = (
   const showError = error && !showRecentQueries;
 
   return (
-    <S.Container ref={ref}>
+    <S.Container>
       {isLoading && <Loading />}
       {showInputKeyword && <ResultItem sick={{ sickCd: '', sickNm: value }} />}
       {showRecentQueries && <RecentQueries onClickHandler={submitHandler} />}
       {showResultList && (
-        <ResultList submitHandler={submitHandler} sickList={sickList} selectedIndex={selectedListItemIndex} />
+        <ResultList selectedListRef={selectedListRef} submitHandler={submitHandler} sickList={sickList} selectedIndex={selectedListItemIndex} />
       )}
       {showNoResult && <NoResult />}
       {showRecentQueries && <RecommendQueryButtons onClickHandler={submitHandler} />}
@@ -36,4 +36,4 @@ const RecommendBox = (
     </S.Container>
   );
 };
-export default forwardRef(RecommendBox);
+export default RecommendBox;

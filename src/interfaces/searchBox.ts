@@ -1,4 +1,4 @@
-import React, { ForwardedRef } from 'react';
+import React, {ForwardedRef, MutableRefObject} from "react";
 
 export interface ISearchFormProps {
   isInputFocus: boolean;
@@ -15,4 +15,5 @@ export interface IRecommendBoxProps {
   value: string;
   submitHandler: (...args: any[]) => void;
   selectedListItemIndex: number;
+  selectedListRef: MutableRefObject<HTMLDivElement[]>;
 }

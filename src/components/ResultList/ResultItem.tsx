@@ -1,16 +1,14 @@
 import { iSickChild } from '../../interfaces/iSickList';
 import SearchIcon from '@mui/icons-material/Search';
 import * as S from './ResultItem.style';
-import React from 'react';
-const ResultItem = ({ sick, onClickHandler, isSelected, index }: IResultItemProps) => {
+import React, {ForwardedRef, forwardRef} from "react";
+const ResultItem = ({ sick, onClickHandler, isSelected }: IResultItemProps,ref:ForwardedRef<HTMLDivElement>) => {
   return (
     <S.ResultItemWrapper>
       <S.ResultItemButton
-        data-value={sick.sickNm}
-        data-index={index}
-        isSelected={isSelected}
         onClick={(e) => (onClickHandler ? onClickHandler(sick.sickNm) : null)}
-      >
+        isSelected={isSelected}
+        ref={ref}>
         <SearchIcon sx={{ color: 'grey' }} />
         {sick.sickNm}
       </S.ResultItemButton>
@@ -22,7 +20,6 @@ interface IResultItemProps {
   sick: iSickChild;
   onClickHandler?: (...args: any[]) => void;
   isSelected?: boolean;
-  index?: number;
 }
 
-export default ResultItem;
+export default forwardRef(ResultItem);

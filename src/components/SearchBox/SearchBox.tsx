@@ -26,15 +26,15 @@ const SearchBox = () => {
     setValue('');
   };
   const listLength = sickList ? sickList.length : 0;
+  const listRef = useRef<HTMLDivElement[]>([]);
   const handleSubmitSelected = (selectedIndex: number) => {
     if (selectedIndex === -1) return;
-    const selectedElement = boxRef.current?.querySelector(`[data-index="${selectedIndex}"]`);
-    const value = selectedElement?.getAttribute('data-value');
+    const selectedElement = listRef.current[selectedIndex];
+    const value = selectedElement.textContent;
     if (value) {
       submitHandler(value);
     }
   };
-  const boxRef = useRef<HTMLDivElement>(null);
   const { selectedListItemIndex, handleKeydownSelect } = useSelectKeydown({
     listLength: listLength,
     selectHandler: handleSubmitSelected,
@@ -49,12 +49,12 @@ const SearchBox = () => {
     submitHandler,
     refs: { inputRef, formRef },
   } as ISearchFormProps;
-  const recommendBoxProps = { selectedListItemIndex, submitHandler, value } as IRecommendBoxProps;
+  const recommendBoxProps = { selectedListItemIndex, submitHandler, value,selectedListRef:listRef } as IRecommendBoxProps;
 
   return (
     <S.SearchBoxWrapper ref={searchBoxRef}>
       <SearchForm {...searchFormProps} />
-      {isInputFocus && <RecommendBox {...recommendBoxProps} ref={boxRef} />}
+      {isInputFocus && <RecommendBox  {...recommendBoxProps} />}
     </S.SearchBoxWrapper>
   );
 };
