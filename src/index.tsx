@@ -9,8 +9,8 @@ import store from './redux/store';
 import { Provider } from 'react-redux';
 import RecentQueryProvider from './context/recentQueryContext';
 import CustomRouterProvider from './router/router';
-import {LocalStorageSickCacheRepository} from "./repository/localStorageRepository";
-import {LocalRecentQueryRepository} from "./repository/localStorageSickCacheRepository";
+import { LocalStorageSickCacheRepository } from './repository/localStorageRepository';
+import { LocalRecentQueryRepository } from './repository/localStorageSickCacheRepository';
 
 const baseURL = 'http://localhost:4000/';
 const cacheRepository = new LocalStorageSickCacheRepository();

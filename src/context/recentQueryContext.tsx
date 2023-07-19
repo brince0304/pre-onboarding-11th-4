@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { localStorageQueryListName } from '../utils/sickUtility';
-import {ILocalRecentQueryRepository} from "../repository/localStorageSickCacheRepository";
+import { ILocalRecentQueryRepository } from '../repository/localStorageSickCacheRepository';
 
 const recentQueryContext = createContext<IRecentQueryContext>({} as IRecentQueryContext);
 export const useRecentQuery = () => useContext(recentQueryContext);
