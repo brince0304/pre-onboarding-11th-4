@@ -30,20 +30,20 @@ export class SickService implements SickServiceInterface {
         expireTime: getDefaultExpireTime(),
       });
     };
-      clearCachedData();
-      const data = getCachedData();
-      if (data) {
-        return data.sickList;
-      }
-      try {
-        console.info('calling api');
-        const { data } = await this.axiosClient.get(getSickURL(query));
-        const spliced = data.splice(0, 7);
-        addToCachedData(spliced);
-        return spliced as ISickList;
-      } catch (error) {
-        throw new Error(error as string);
-      }
+    clearCachedData();
+    const data = getCachedData();
+    if (data) {
+      return data.sickList;
+    }
+    try {
+      console.info('calling api');
+      const { data } = await this.axiosClient.get(getSickURL(query));
+      const spliced = data.splice(0, 7);
+      addToCachedData(spliced);
+      return spliced as ISickList;
+    } catch (error) {
+      throw new Error(error as string);
+    }
   };
 }
 
