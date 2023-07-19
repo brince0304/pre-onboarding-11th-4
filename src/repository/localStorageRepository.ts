@@ -1,47 +1,49 @@
-import { getDefaultExpireTime, localStorageSickCacheName } from '../utils/sickUtility';
-import { iSickChild, ISickList } from '../interfaces/iSickList';
+import {getDefaultExpireTime, localStorageSickCacheName} from "../utils/sickUtility";
+import {iSickChild, ISickList} from "../interfaces/iSickList";
 
 export interface ILocalStorageSickCacheRepository {
-  getCachedData(query: string): ISickList | undefined;
-  clearCachedData(): void;
-  addToCachedData(query: string, sickList: iSickChild[]): void;
+    getCachedData(query: string): ISickList | undefined;
+    clearCachedData(): void;
+    addToCachedData(query: string, sickList: iSickChild[]): void;
 }
 
 export class LocalStorageSickCacheRepository implements ILocalStorageSickCacheRepository {
-  private readonly keyName = localStorageSickCacheName;
+  private keyName = localStorageSickCacheName;
+  private cachedData: ISickCache[];
 
-  getFromLocalStorage = () => {
+  constructor() {
+    this.cachedData = this.getFromLocalStorage();
+  }
+
+  private getFromLocalStorage(): ISickCache[] {
     const list = localStorage.getItem(this.keyName);
-    if (list) {
-      return JSON.parse(list) as ISickCache[];
-    }
-    return [];
-  };
-  getCachedData = (query: string) => {
+    return list ? JSON.parse(list) : [];
+  }
+
+  private updateLocalStorage(): void {
+    localStorage.setItem(this.keyName, JSON.stringify(this.cachedData));
+  }
+
+  getCachedData(query: string): iSickChild[] | undefined {
     this.clearCachedData();
-    const cachedData = this.getFromLocalStorage();
-    const cachedItem = cachedData.find((item: any) => item.query === query) as ISickCache;
-    return cachedItem.sickList;
-  };
+    const cachedItem = this.cachedData.find(item => item.query === query);
+    return cachedItem?.sickList;
+  }
 
-  clearCachedData = () => {
-    const cachedData = this.getFromLocalStorage();
-    const filteredCachedData = cachedData.filter((item: any) => item.expireTime > Date.now());
-    localStorage.setItem(this.keyName, JSON.stringify(filteredCachedData));
-  };
+  clearCachedData(): void {
+    this.cachedData = this.cachedData.filter(item => item.expireTime > Date.now());
+    this.updateLocalStorage();
+  }
 
-  addToCachedData = (query: string, sickList: iSickChild[]) => {
-    const cachedData = this.getFromLocalStorage();
-    const newCachedData = [
-      ...cachedData,
-      {
-        query,
-        sickList,
-        expireTime: getDefaultExpireTime(),
-      },
-    ];
-    localStorage.setItem(this.keyName, JSON.stringify(newCachedData));
-  };
+  addToCachedData(query: string, sickList: iSickChild[]): void {
+    const newCache = {
+      query,
+      sickList,
+      expireTime: getDefaultExpireTime(),
+    };
+    this.cachedData.push(newCache);
+    this.updateLocalStorage();
+  }
 }
 export interface ISickCache {
   query: string;
