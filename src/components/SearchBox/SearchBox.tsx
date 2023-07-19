@@ -6,8 +6,8 @@ import useChildBox from '../../hooks/useChildBox';
 import useSickList from '../../hooks/useSickList';
 import { useRecentQuery } from '../../context/recentQueryContext';
 import useSelectKeydown from '../../hooks/useSelectKeydown';
-import {IRecommendBoxProps, ISearchFormProps} from "../../interfaces/searchBox";
-import SearchForm from "./SearchForm";
+import { IRecommendBoxProps, ISearchFormProps } from '../../interfaces/searchBox';
+import SearchForm from './SearchForm';
 
 const SearchBox = () => {
   const searchBoxRef = useRef<HTMLDivElement>(null);
