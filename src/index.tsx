@@ -7,14 +7,15 @@ import { SickService } from './service/sickService';
 import axiosClient from './client/axiosClient';
 import store from './redux/store';
 import { Provider } from 'react-redux';
-import { LocalRecentQueryRepository } from './repository/localStorageRepository';
-import { localStorageQueryListName } from './utils/sickUtility';
 import RecentQueryProvider from './context/recentQueryContext';
 import CustomRouterProvider from './router/router';
+import {LocalStorageSickCacheRepository} from "./repository/localStorageRepository";
+import {LocalRecentQueryRepository} from "./repository/localStorageSickCacheRepository";
 
 const baseURL = 'http://localhost:4000/';
-const sickService = new SickService(axiosClient(baseURL));
-const recentQueryRepository = new LocalRecentQueryRepository(localStorageQueryListName);
+const cacheRepository = new LocalStorageSickCacheRepository();
+const sickService = new SickService(axiosClient(baseURL), cacheRepository);
+const recentQueryRepository = new LocalRecentQueryRepository();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
