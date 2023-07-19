@@ -1,6 +1,6 @@
 # ‼️과제 핵심 요구사항 및 배포링크
 
-- https://mellifluous-strudel-82634a.netlify.app/
+- https://main--mellifluous-strudel-82634a.netlify.app/
 
   - 클릭시 배포된 링크로 이동됩니다.
 
@@ -75,56 +75,53 @@ const useChildBox = (ref: RefObject<HTMLElement>) => {
 
 ## 🤔 검색어 추천 기능 구현 / 캐싱
 
-- 가장 최상단에서 내려주는 서비스 **클래스의 메서드 안에서** 캐싱 기능을 구현하였습니다.
-  - **클래스안에 cachedData 멤버변수를 선언하여 인스턴스화 시에 배열을 초기화하도록 하였고, 메서드가 호출될시 배열에서 존재하는 데이터를 확인 후 없다면 api를 호출하도록 구현하였습니다.**
+- 리포지토리 클래스를 구현하여 캐싱을 관리하도록 하였고, 서비스클래스는 리포지토리 클래스 인스턴스를 받아와서 api 호출을 핸들링 하도록 구현하였습니다.
+  - **리포지토리 클래스안에 cachedData 멤버변수를 선언하여 인스턴스화 시에 배열을 초기화하도록 하였고, 메서드가 호출될시 로컬스토리지에서 존재하는 데이터를 확인 후 없다면 api를 호출하도록 구현하였습니다.**
     - 리스트는 redux 상태값으로 관리하도록 구현하였고, redux thunk 를 통하여 pending, fulfilled, rejected 상황 핸들링을 리덕스 비즈니스 로직을 담는 커스텀 훅과 분리하여 reducer 에서 관리하였습니다.
-  - **만료기간은 5분으로 설정하여 매번 메서드 호출시에 새로 캐시데이터를 갱신하도록 구현하였습니다.**
+  - **만료기간은 10분으로 설정하여 매번 메서드 호출시에 새로 캐시데이터를 갱신하도록 구현하였습니다.**
     - 기존에는 redux 를 통하여 redux 상태값에 캐시 데이터를 저장하여 여러개의 함수를 선언하여 (캐시데이터가 존재하는지 확인하는 함수, fetch함수, dispatch를 실행하는 핸들러 함수) 구현하였지만 코드의 가독성을 보완하기 위해 구조를 변경하였습니다.
     - 화요일 세션에서 클로저를 학습한 후에 캐싱을 클로저로 구현 할 수 있을까 했지만 이미 비즈니스 로직을 클래스 메서드로 관리하고 있었고, context api 를 통하여 인스턴스를 공유하고있었기 때문에 불필요한 실험적인 행동은 지양하고 private 멤버변수를 선언하여 캡슐화 & 캐싱을 구현하였습니다.
   - 클래스 내에서만 사용되는 메서드를 제외하고 fetch 메소드를 context api를 통하여 전역에서 사용할 수 있도록 해주었습니다.
 
 ```tsx
 // sickService.tsx
-export class SickService implements SickServiceInterface {
-  private axiosClient: AxiosInstance;
-  private cachedData = [] as ISickCache[];
+export class LocalStorageSickCacheRepository implements ILocalStorageSickCacheRepository {
+  private keyName = localStorageSickCacheName;
+  private cachedData: ISickCache[];
 
-  constructor(axiosClient: AxiosInstance) {
-    this.axiosClient = axiosClient;
+  constructor() {
+    this.cachedData = this.getFromLocalStorage();
   }
 
-  getCachedData = (query: string) => {
-    return this.cachedData.find((item) => item.query === query);
-  };
+  private getFromLocalStorage(): ISickCache[] {
+    const list = localStorage.getItem(this.keyName);
+    return list ? JSON.parse(list) : [];
+  }
 
-  clearCachedData = (query: string) => {
+  private updateLocalStorage(): void {
+    localStorage.setItem(this.keyName, JSON.stringify(this.cachedData));
+  }
+
+  getCachedData(query: string): iSickChild[] | undefined {
+    this.clearCachedData();
+    const cachedItem = this.cachedData.find((item) => item.query === query);
+    return cachedItem?.sickList;
+  }
+
+  clearCachedData(): void {
     this.cachedData = this.cachedData.filter((item) => item.expireTime > Date.now());
-  };
+    this.updateLocalStorage();
+  }
 
-  addToCachedData = (query: string, sickList: iSickChild[]) => {
-    this.cachedData.push({
-      query: query,
-      sickList: sickList,
+  addToCachedData(query: string, sickList: iSickChild[]): void {
+    const newCache = {
+      query,
+      sickList,
       expireTime: getDefaultExpireTime(),
-    });
-  };
-
-  getSickListByQuery = async (query: string) => {
-    this.clearCachedData(query);
-    const data = this.getCachedData(query);
-    if (data) {
-      return data.sickList;
-    }
-    try {
-      console.info('calling api');
-      const { data } = await this.axiosClient.get(getSickURL(query));
-      const spliced = data.splice(0, 7);
-      this.addToCachedData(query, spliced);
-      return spliced as ISickList;
-    } catch (error) {
-      throw new Error(error as string);
-    }
-  };
+    };
+    this.cachedData.push(newCache);
+    this.updateLocalStorage();
+  }
 }
 ```
 
