@@ -14,24 +14,25 @@ export class SickService implements SickServiceInterface {
     this.axiosClient = axiosClient;
   }
 
+  getCachedData = (query: string) => {
+    return this.cachedData.find((item) => item.query === query);
+  };
+
+  clearCachedData = (query: string) => {
+    this.cachedData = this.cachedData.filter((item) => item.expireTime > Date.now());
+  };
+
+  addToCachedData = (query: string, sickList: iSickChild[]) => {
+    this.cachedData.push({
+      query: query,
+      sickList: sickList,
+      expireTime: getDefaultExpireTime(),
+    });
+  };
+
   getSickListByQuery = async (query: string) => {
-    const getCachedData = () => {
-      return this.cachedData.find((item) => item.query === query);
-    };
-
-    const clearCachedData = () => {
-      this.cachedData = this.cachedData.filter((item) => item.expireTime > Date.now());
-    };
-
-    const addToCachedData = (sickList: iSickChild[]) => {
-      this.cachedData.push({
-        query: query,
-        sickList: sickList,
-        expireTime: getDefaultExpireTime(),
-      });
-    };
-    clearCachedData();
-    const data = getCachedData();
+    this.clearCachedData(query);
+    const data = this.getCachedData(query);
     if (data) {
       return data.sickList;
     }
@@ -39,7 +40,7 @@ export class SickService implements SickServiceInterface {
       console.info('calling api');
       const { data } = await this.axiosClient.get(getSickURL(query));
       const spliced = data.splice(0, 7);
-      addToCachedData(spliced);
+      this.addToCachedData(query, spliced);
       return spliced as ISickList;
     } catch (error) {
       throw new Error(error as string);
