@@ -1,10 +1,10 @@
-import {getDefaultExpireTime, localStorageSickCacheName} from "../utils/sickUtility";
-import {iSickChild, ISickList} from "../interfaces/iSickList";
+import { getDefaultExpireTime, localStorageSickCacheName } from '../utils/sickUtility';
+import { iSickChild, ISickList } from '../interfaces/iSickList';
 
 export interface ILocalStorageSickCacheRepository {
-    getCachedData(query: string): ISickList | undefined;
-    clearCachedData(): void;
-    addToCachedData(query: string, sickList: iSickChild[]): void;
+  getCachedData(query: string): ISickList | undefined;
+  clearCachedData(): void;
+  addToCachedData(query: string, sickList: iSickChild[]): void;
 }
 
 export class LocalStorageSickCacheRepository implements ILocalStorageSickCacheRepository {
@@ -26,12 +26,12 @@ export class LocalStorageSickCacheRepository implements ILocalStorageSickCacheRe
 
   getCachedData(query: string): iSickChild[] | undefined {
     this.clearCachedData();
-    const cachedItem = this.cachedData.find(item => item.query === query);
+    const cachedItem = this.cachedData.find((item) => item.query === query);
     return cachedItem?.sickList;
   }
 
   clearCachedData(): void {
-    this.cachedData = this.cachedData.filter(item => item.expireTime > Date.now());
+    this.cachedData = this.cachedData.filter((item) => item.expireTime > Date.now());
     this.updateLocalStorage();
   }
 
