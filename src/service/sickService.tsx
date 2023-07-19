@@ -1,7 +1,7 @@
 import { ISickList } from '../interfaces/iSickList';
 import { AxiosInstance } from 'axios';
 import { getSickURL } from '../utils/sickUtility';
-import { ILocalStorageSickCacheRepository } from '../repository/localRecentQueryRepository';
+import { ILocalStorageSickCacheRepository } from '../repository/localSickCachRepository';
 
 export interface SickServiceInterface {
   getSickListByQuery: (query: string) => Promise<ISickList>;

@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { localStorageQueryListName } from '../utils/sickUtility';
-import { ILocalRecentQueryRepository } from '../repository/localSickCacheRepository';
+import { ILocalRecentQueryRepository } from '../repository/localRecentQueryRepository';
 
 const recentQueryContext = createContext<IRecentQueryContext>({} as IRecentQueryContext);
 export const useRecentQuery = () => useContext(recentQueryContext);
@@ -12,41 +11,29 @@ const RecentQueryProvider = ({
   children: ReactNode;
   localStorageRepository: ILocalRecentQueryRepository;
 }) => {
-  const get = localStorageRepository.get.bind(localStorageRepository);
-  const save = localStorageRepository.save.bind(localStorageRepository);
-  const [recentQueryFromStorage, setRecentQueryFromStorage] = useState<string[]>([]); // [1
-  useEffect(() => {
-    setRecentQueryFromStorage(JSON.parse(get() || '[]'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localStorage.getItem(localStorageQueryListName)]);
+  const getFromLocalStorage = localStorageRepository.getFromLocalStorage.bind(localStorageRepository);
+    const addRecentQuery = localStorageRepository.addRecentQuery.bind(localStorageRepository);
+    const deleteRecentQuery = localStorageRepository.deleteRecentQuery.bind(localStorageRepository);
+    const [list, setList] = useState<string[]>([]);
 
-  const addRecentQuery = (query: string) => {
-    const queryList = JSON.parse(get() || '[]');
-    if (queryList.indexOf(query) === -1) {
-      queryList.unshift(query);
-      const spliced = queryList.splice(0, 5);
-      save(JSON.stringify(spliced));
-      setRecentQueryFromStorage(queryList);
+    const handleAddRecentQuery = (value: string) => {
+        addRecentQuery(value);
+        setList(getFromLocalStorage());
     }
-  };
 
-  const deleteRecentQuery = (query: string) => {
-    const queryList = JSON.parse(get() || '[]');
-    const index = queryList.indexOf(query);
-    if (index !== -1) {
-      queryList.splice(index, 1);
-      save(JSON.stringify(queryList));
-      setRecentQueryFromStorage(queryList);
+    const handleDeleteRecentQuery = (value: string) => {
+        deleteRecentQuery(value);
+        setList(getFromLocalStorage());
     }
-  };
 
-  useEffect(() => {
-    setRecentQueryFromStorage(JSON.parse(get() || '[]'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    useEffect(() => {
+        setList(getFromLocalStorage());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
 
   return (
-    <recentQueryContext.Provider value={{ recentQuery: recentQueryFromStorage, addRecentQuery, deleteRecentQuery }}>
+    <recentQueryContext.Provider value={{ recentQuery: list, addRecentQuery: handleAddRecentQuery, deleteRecentQuery: handleDeleteRecentQuery }}>
       {children}
     </recentQueryContext.Provider>
   );

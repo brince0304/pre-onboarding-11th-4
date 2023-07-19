@@ -1,52 +1,40 @@
-import { getDefaultExpireTime, localStorageSickCacheName } from '../utils/sickUtility';
-import { iSickChild, ISickList } from '../interfaces/iSickList';
+import { localStorageQueryListName } from '../utils/sickUtility';
 
-export interface ILocalStorageSickCacheRepository {
-  getCachedData(query: string): ISickList | undefined;
-  clearCachedData(): void;
-  addToCachedData(query: string, sickList: iSickChild[]): void;
+export interface ILocalRecentQueryRepository {
+    getFromLocalStorage(): string[];
+addRecentQuery(query: string): void;
+deleteRecentQuery(query: string): void;
 }
 
-export class LocalStorageSickCacheRepository implements ILocalStorageSickCacheRepository {
-  private readonly keyName = localStorageSickCacheName;
-  private cachedData: ISickCache[];
+export class LocalRecentQueryRepository implements ILocalRecentQueryRepository {
+  private readonly keyName = localStorageQueryListName;
 
-  constructor() {
-    this.cachedData = this.getFromLocalStorage();
-  }
-
-  private getFromLocalStorage(): ISickCache[] {
+  getFromLocalStorage(): string[] {
     const list = localStorage.getItem(this.keyName);
     return list ? JSON.parse(list) : [];
   }
 
-  private updateLocalStorage(): void {
-    localStorage.setItem(this.keyName, JSON.stringify(this.cachedData));
+  addRecentQuery = (query: string) => {
+    const queryList = this.getFromLocalStorage();
+    if (queryList.indexOf(query) === -1) {
+      queryList.unshift(query);
+      const spliced = queryList.splice(0, 5);
+        this.saveList(spliced);
+    }
+  };
+
+  saveList(list: string[]): void {
+    localStorage.setItem(this.keyName, JSON.stringify(list));
   }
 
-  getCachedData(query: string): iSickChild[] | undefined {
-    this.clearCachedData();
-    const cachedItem = this.cachedData.find((item) => item.query === query);
-    return cachedItem?.sickList;
-  }
+  deleteRecentQuery = (query: string) => {
+    const queryList = this.getFromLocalStorage();
+    const index = queryList.indexOf(query);
+    if (index !== -1) {
+      queryList.splice(index, 1);
+        this.saveList(queryList);
+    }
+  };
 
-  clearCachedData(): void {
-    this.cachedData = this.cachedData.filter((item) => item.expireTime > Date.now());
-    this.updateLocalStorage();
-  }
 
-  addToCachedData(query: string, sickList: iSickChild[]): void {
-    const newCache = {
-      query,
-      sickList,
-      expireTime: getDefaultExpireTime(),
-    };
-    this.cachedData.push(newCache);
-    this.updateLocalStorage();
-  }
-}
-export interface ISickCache {
-  query: string;
-  sickList: ISickList;
-  expireTime: number;
 }
