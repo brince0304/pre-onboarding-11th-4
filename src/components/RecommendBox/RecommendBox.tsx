@@ -20,7 +20,7 @@ const RecommendBox = (
   const showResultList = sickList && sickList.length > 0 && value.length > 0 && !isLoading;
   const showNoResult = !isLoading && !showResultList && showInputKeyword && value !== '';
   const showRecentQueries = !isLoading && !showResultList && !showNoResult && value === '';
-  const showError = error && !showRecentQueries && !showResultList && !showNoResult && !showInputKeyword;
+  const showError = error && !showRecentQueries;
 
   return (
     <S.Container ref={ref}>
