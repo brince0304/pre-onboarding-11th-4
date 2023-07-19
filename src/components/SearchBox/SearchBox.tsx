@@ -49,12 +49,17 @@ const SearchBox = () => {
     submitHandler,
     refs: { inputRef, formRef },
   } as ISearchFormProps;
-  const recommendBoxProps = { selectedListItemIndex, submitHandler, value,selectedListRef:listRef } as IRecommendBoxProps;
+  const recommendBoxProps = {
+    selectedListItemIndex,
+    submitHandler,
+    value,
+    selectedListRef: listRef,
+  } as IRecommendBoxProps;
 
   return (
     <S.SearchBoxWrapper ref={searchBoxRef}>
       <SearchForm {...searchFormProps} />
-      {isInputFocus && <RecommendBox  {...recommendBoxProps} />}
+      {isInputFocus && <RecommendBox {...recommendBoxProps} />}
     </S.SearchBoxWrapper>
   );
 };

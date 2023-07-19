@@ -1,4 +1,4 @@
-import React, {ForwardedRef, MutableRefObject} from "react";
+import React, { ForwardedRef, MutableRefObject } from 'react';
 
 export interface ISearchFormProps {
   isInputFocus: boolean;

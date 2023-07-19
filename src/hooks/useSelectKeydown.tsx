@@ -1,4 +1,4 @@
-import {KeyboardEvent, useEffect, useState} from "react";
+import { KeyboardEvent, useEffect, useState } from 'react';
 
 const useSelectKeydown = ({ listLength, selectHandler }: IUseSelect) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);

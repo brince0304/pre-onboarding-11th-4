@@ -35,12 +35,14 @@
     npm install
 
 ### 환경변수 설정
+
 최상단에 .env 파일 생성
 로컬에서 실행시 http://localhost:4000/ 으로 설정하시면 됩니다.
 
     REACT_APP_API_BASE_URL={APIBASEURL}
 
 ### 실행
+
 서버는 concurrently 로 클라이언트와 동시에 실행됩니다.
 
     npm start

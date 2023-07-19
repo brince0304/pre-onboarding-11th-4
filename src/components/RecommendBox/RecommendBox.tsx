@@ -7,13 +7,10 @@ import useSickList from '../../hooks/useSickList';
 import Loading from '../ResultList/Loading';
 import Error from '../ResultList/Error';
 import NoResult from '../ResultList/NoResult';
-import React  from "react";
+import React from 'react';
 import { IRecommendBoxProps } from '../../interfaces/searchBox';
 
-const RecommendBox = (
-  { value, submitHandler, selectedListItemIndex,selectedListRef }: IRecommendBoxProps,
-
-) => {
+const RecommendBox = ({ value, submitHandler, selectedListItemIndex, selectedListRef }: IRecommendBoxProps) => {
   const { error, loading, sickList } = useSickList();
   const isLoading = loading === 'pending';
   const showInputKeyword = !isLoading && value.length > 0;
@@ -28,7 +25,12 @@ const RecommendBox = (
       {showInputKeyword && <ResultItem sick={{ sickCd: '', sickNm: value }} />}
       {showRecentQueries && <RecentQueries onClickHandler={submitHandler} />}
       {showResultList && (
-        <ResultList selectedListRef={selectedListRef} submitHandler={submitHandler} sickList={sickList} selectedIndex={selectedListItemIndex} />
+        <ResultList
+          selectedListRef={selectedListRef}
+          submitHandler={submitHandler}
+          sickList={sickList}
+          selectedIndex={selectedListItemIndex}
+        />
       )}
       {showNoResult && <NoResult />}
       {showRecentQueries && <RecommendQueryButtons onClickHandler={submitHandler} />}
