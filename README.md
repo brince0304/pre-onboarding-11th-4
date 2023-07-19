@@ -168,26 +168,14 @@ useEffect(() => {
 ## 🤔키보드로 조작 가능하도록 구현
 
 - handleSelectKeydown 훅을 구현하여 **상태값으로 인덱스를 갖고있도록** 하였고, 선택이 가능하도록 구현할 **div RefObject 를 전달받아 콜백함수를 실행하도록** 하였습니다.
-- 콜백함수는 밸류값을 매개변수로 전달하는 함수로 , **해당 밸류값은 boxRef.querySelector 를 통해 dataset attribute 의 값을 검색해 해당 element 가 존재한다면 data-value의 값을 가져와 매개변수로 전달하도록** 하였습니다.
+- 콜백함수는 밸류값을 매개변수로 전달하는 함수로 , **해당 밸류값은 DivElementRef 배열의 인덱스에서 ref를 가져와 텍스트값으로 전달하도록** 하였습니다.
 - 엔터시에는 기존 서브밋 콜백함수가 실행되도록 구현했고, 인풋이 focus 되어있는 상황에서는 기본적으로 엔터시에는 검색을 진행하도록 구현했습니다. selectedIndex 가 0 이상일때는 키보드로 선택한 검색어를 엔터시에 검색하도록 구현하여 이벤트 충돌을 방지하였습니다.
 - 기존에는 props drilling 을 방지하고자 document.getElementsByClassName()를 통하여 className 에 선택된 아이템일시에 'selected'를 포함하도록 구현하여 실행하도록 했지만 직접적인 DOM 조작을 지양하기 위해 로직을 변경하였습니다.
 
 ```tsx
 // useSelectKeydown.tsx
-const useSelectKeydown = ({ listLength, callback, ref }: IUseSelect) => {
+const useSelectKeydown = ({ listLength, selectHandler }: IUseSelect) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
-
-  const handleSubmitSelected = () => {
-    if (selectedIndex >= 0 && selectedIndex < listLength) {
-      const selectedElement = ref.current?.querySelector(`[data-index="${selectedIndex}"]`);
-      if (selectedElement) {
-        const value = selectedElement.getAttribute('data-value');
-        if (value) {
-          callback(value);
-        }
-      }
-    }
-  };
 
   const handleKeydown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.nativeEvent.isComposing) return;
@@ -199,7 +187,7 @@ const useSelectKeydown = ({ listLength, callback, ref }: IUseSelect) => {
       setSelectedIndex((prev) => (prev - 1 + listLength) % listLength);
     } else if (e.key === 'Enter' && selectedIndex >= 0) {
       e.preventDefault();
-      handleSubmitSelected();
+      selectHandler(selectedIndex);
     } else if (e.key === 'Escape') {
       e.preventDefault();
       setSelectedIndex(-1);
@@ -212,6 +200,28 @@ const useSelectKeydown = ({ listLength, callback, ref }: IUseSelect) => {
 
   return { selectedListItemIndex: selectedIndex, handleKeydownSelect: handleKeydown };
 };
+
+interface IUseSelect {
+  listLength: number;
+  selectHandler: (index: number) => void;
+}
+```
+
+```
+// SearchBox.tsx
+  const listRef = useRef<HTMLDivElement[]>([]);
+  const handleSubmitSelected = (selectedIndex: number) => {
+    if (selectedIndex === -1) return;
+    const selectedElement = listRef.current[selectedIndex];
+    const value = selectedElement.textContent;
+    if (value) {
+      submitHandler(value);
+    }
+  };
+  const { selectedListItemIndex, handleKeydownSelect } = useSelectKeydown({
+    listLength: listLength,
+    selectHandler: handleSubmitSelected,
+  });
 ```
 
 ❣️마지막 4주차 과제까지 진행하면서 정말 많은 실력향상과 리액트, 자바스크립트의 매력을 다시 한번 느끼게 되었습니다. 고생해주신 멘토님 너무 수고 많으셨습니다!❣️
