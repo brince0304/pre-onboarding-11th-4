@@ -25,11 +25,7 @@ const RecommendBox = ({ value, submitHandler, selectedListRef }: IRecommendBoxPr
       {showInputKeyword && <ResultItem sick={{ sickCd: '', sickNm: value }} />}
       {showRecentQueries && <RecentQueries onClickHandler={submitHandler} />}
       {showResultList && (
-        <ResultList
-          selectedListRef={selectedListRef}
-          submitHandler={submitHandler}
-          sickList={sickList}
-        />
+        <ResultList selectedListRef={selectedListRef} submitHandler={submitHandler} sickList={sickList} />
       )}
       {showNoResult && <NoResult />}
       {showRecentQueries && <RecommendQueryButtons onClickHandler={submitHandler} />}

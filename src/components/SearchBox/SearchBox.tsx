@@ -27,7 +27,7 @@ const SearchBox = () => {
   };
   const listLength = sickList ? sickList.length : 0;
 
-  const { selectedListItemIndex, handleKeydownSelect,listRef } = useSelectKeydown({
+  const { selectedListItemIndex, handleKeydownSelect, listRef } = useSelectKeydown({
     listLength: listLength,
     selectHandler: submitHandler,
   });

@@ -1,4 +1,4 @@
-import {KeyboardEvent, useCallback, useEffect, useRef, useState} from "react";
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 const useSelectKeydown = ({ listLength, selectHandler }: IUseSelect) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -10,7 +10,7 @@ const useSelectKeydown = ({ listLength, selectHandler }: IUseSelect) => {
       element.classList.remove('selected');
     }
   }, []);
- // TODO : 선택 핸들링로직 구현 필요 
+  // TODO : 선택 핸들링로직 구현 필요
   const addSelectedClass = useCallback((index: number) => {
     const element = listRef.current[index];
     if (element) {
@@ -63,8 +63,8 @@ const useSelectKeydown = ({ listLength, selectHandler }: IUseSelect) => {
 };
 
 interface IUseSelect {
-    listLength: number;
-    selectHandler: (...args: any[]) => void;
+  listLength: number;
+  selectHandler: (...args: any[]) => void;
 }
 
 export default useSelectKeydown;
