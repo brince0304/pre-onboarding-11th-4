@@ -3,7 +3,7 @@ import ResultItem from './ResultItem';
 import * as S from './ResultList.style';
 import { MutableRefObject } from 'react';
 
-const ResultList = ({ sickList, submitHandler, selectedIndex, selectedListRef }: IResultListProps) => {
+const ResultList = ({ sickList, submitHandler, selectedListRef }: IResultListProps) => {
   return (
     <S.ListBox>
       <S.ResultTitle>추천 검색어</S.ResultTitle>
@@ -17,7 +17,6 @@ const ResultList = ({ sickList, submitHandler, selectedIndex, selectedListRef }:
             }
           }}
           onClickHandler={submitHandler}
-          isSelected={selectedIndex === index}
         />
       ))}
     </S.ListBox>
@@ -26,7 +25,6 @@ const ResultList = ({ sickList, submitHandler, selectedIndex, selectedListRef }:
 
 interface IResultListProps {
   sickList: iSickChild[];
-  selectedIndex: number;
   submitHandler: (...args: any[]) => void;
   selectedListRef: MutableRefObject<HTMLDivElement[]>;
 }

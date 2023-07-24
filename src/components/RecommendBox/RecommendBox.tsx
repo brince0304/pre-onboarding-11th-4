@@ -10,7 +10,7 @@ import NoResult from '../ResultList/NoResult';
 import React from 'react';
 import { IRecommendBoxProps } from '../../interfaces/searchBox';
 
-const RecommendBox = ({ value, submitHandler, selectedListItemIndex, selectedListRef }: IRecommendBoxProps) => {
+const RecommendBox = ({ value, submitHandler, selectedListRef }: IRecommendBoxProps) => {
   const { error, loading, sickList } = useSickList();
   const isLoading = loading === 'pending';
   const showInputKeyword = !isLoading && value.length > 0;
@@ -29,7 +29,6 @@ const RecommendBox = ({ value, submitHandler, selectedListItemIndex, selectedLis
           selectedListRef={selectedListRef}
           submitHandler={submitHandler}
           sickList={sickList}
-          selectedIndex={selectedListItemIndex}
         />
       )}
       {showNoResult && <NoResult />}
